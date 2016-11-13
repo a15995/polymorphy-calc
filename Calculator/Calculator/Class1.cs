@@ -31,11 +31,14 @@ namespace Calculator
         protected Expression left; // a. Med to felter left
         protected Expression right; // og right af typen Expression, der kun er tilgængelige for underklasser og klassen selv.
 
-        abstract readonly string OperatorSymbol { } // b. Med abstrakt read-only property OperatorSymbol af typen string.
-        
-        public sealed string ToString() // c. Med ToString,
+        abstract readonly string OperatorSymbol // b. Med abstrakt read-only property OperatorSymbol af typen string.
         {
-            return (left + " " + OperatorSymbol + " " + right); // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres
+            get { return; }  
+        }
+        
+        public sealed string ToString // c. Med ToString,
+        {
+            get { return (left + " " + OperatorSymbol + " " + right); } // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres
         }
 
     }
@@ -49,29 +52,29 @@ namespace Calculator
 
         public new double Evaluate // b. med implementation af Evaluate,
         {
-            get { return (left+right); } // der returnerer resultat af left + right.
+            get { return (left + right); } // der returnerer resultat af left + right.
         }
     }
 
 
-    public class MinusExpression : BinaryExpression
+    public class MinusExpression : BinaryExpression // 5. Lav BinaryExpression underklasse MinusExpression:
     {
 
     }
 
-    public class MultiplyExpression : BinaryExpression
+    public class MultiplyExpression : BinaryExpression // 6. Lav BinaryExpression underklasse MultiplyExpression:
     {
 
     }
 
-    public class UnaryExpression : BinaryExpression
+    public class UnaryExpression : Expression // 7. Lav Expression underklasse UnaryExpression:
     {
-
+        protected Expression expr; // a. Med protected felt expr af type Expression
     }
     
-    public class NegateExpression : UnaryExpression
+    public class NegateExpression : UnaryExpression // 8. Lav UnaryExpression underklasse NegateExpression:
     {
-
+        // a. Passende implementation af Evaluate og ToString
     }
 
 
