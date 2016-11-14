@@ -15,67 +15,94 @@ namespace Calculator
     {
         private readonly double value; // a. Med privat readonly felt kaldet value af typen double.
 
-        public new double Evaluate // b. Med implementation af Evaluate,
+        public ConstantExpression(double value) // Udenfor opgaven: Lav constructor der initierer value!
         {
-            get { return value; } // der returnerer value.
+            this.value = value;
         }
 
-        public override string ToString // c. Med overstyring af ToString,
+        public override double Evaluate() // b. Med implementation af Evaluate (metode),
         {
-            get { return value.ToString(); } //  der udskriver value.
+            return value; // der returnerer value.
+        }
+
+        public override string ToString() // c. Med overstyring af ToString (metode),
+        {
+            return this.value.ToString(); //  der udskriver value.
         }   
     }
 
     public abstract class BinaryExpression : Expression // 3. Lav abstrakt Expression underklasse BinaryExpression:
     {
-        protected Expression left; // a. Med to felter left
-        protected Expression right; // og right af typen Expression, der kun er tilgængelige for underklasser og klassen selv.
+        protected readonly Expression left; // a. Med to felter left
+        protected readonly Expression right; // og right af typen Expression, der kun er tilgængelige for underklasser og klassen selv. Readonly er et valg.
 
-        abstract readonly string OperatorSymbol // b. Med abstrakt read-only property OperatorSymbol af typen string.
+        protected BinaryExpression(Expression left, Expression right) // Udenfor opgaven: Lav constructor der initierer left/right!
         {
-            get { return; }  
+            this.left = left;
+            this.right = right;
         }
+
+        public abstract string OperatorSymbol { get; } // b. Med abstrakt read-only property OperatorSymbol af typen string. (read-only: ingen property expressions)
         
-        public sealed string ToString // c. Med ToString,
+        public sealed override string ToString() // c. Med ToString,
         {
-            get { return (left + " " + OperatorSymbol + " " + right); } // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres
+            return left.ToString() + " " + OperatorSymbol + " " + right.ToString(); // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres
         }
-
     }
 
     public class PlusExpression : BinaryExpression // 4. Lav en BinaryExpression underklasse PlusExpression:
     {
-        public new string OperatorSymbol // a. Med implementation af OperatorSymbol,
+        public PlusExpression(Expression left, Expression right) : base(left, right) { } // Udenfor opgaven: Lav constructor der initierer left/right!
+        
+        public override string OperatorSymbol // a. Med implementation af OperatorSymbol,
         {
             get { return "+"; } // der returnerer "+".
         }
 
-        public new double Evaluate // b. med implementation af Evaluate,
+        public override double Evaluate() // b. med implementation af Evaluate,
         {
-            get { return (left + right); } // der returnerer resultat af left + right.
+            return left.Evaluate() + right.Evaluate(); // der returnerer resultat af left + right.
         }
     }
 
 
     public class MinusExpression : BinaryExpression // 5. Lav BinaryExpression underklasse MinusExpression:
     {
+        public MinusExpression(Expression left, Expression right) : base(left, right) { } // Udenfor opgaven: Lav constructor der initierer left/right!
 
+        public override string OperatorSymbol // a. Implementerer OperatorSymbol
+        {
+            get { return "-"; } // ved "-".
+        }
+
+        public override double Evaluate() // b. Implementerer Evaluate
+        {
+            return left.Evaluate() - right.Evaluate(); // ved left - right.
+        }
     }
 
     public class MultiplyExpression : BinaryExpression // 6. Lav BinaryExpression underklasse MultiplyExpression:
     {
+        public MultiplyExpression(Expression left, Expression right) : base(left, right) { } // Udenfor opgaven: Lav constructor der initierer left/right!
 
+        public override string OperatorSymbol // a. Implementerer OperatorSymbol
+        {
+            get { return "*"; } // ved "*".
+        }
+
+        public override double Evaluate() // b. Implementerer Evaluate
+        {
+            return left.Evaluate() * right.Evaluate(); // ved left * right.
+        }
     }
 
-    public class UnaryExpression : Expression // 7. Lav Expression underklasse UnaryExpression:
+    public abstract class UnaryExpression : Expression // 7. Lav Expression underklasse UnaryExpression:
     {
         protected Expression expr; // a. Med protected felt expr af type Expression
     }
     
-    public class NegateExpression : UnaryExpression // 8. Lav UnaryExpression underklasse NegateExpression:
-    {
-        // a. Passende implementation af Evaluate og ToString
-    }
-
-
+//    public class NegateExpression : UnaryExpression // 8. Lav UnaryExpression underklasse NegateExpression:
+//    {
+//        // a. Passende implementation af Evaluate og ToString
+//    }
 }
