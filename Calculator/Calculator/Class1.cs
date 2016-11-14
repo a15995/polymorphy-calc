@@ -46,7 +46,7 @@ namespace Calculator
         
         public sealed override string ToString() // c. Med ToString,
         {
-            return left.ToString() + " " + OperatorSymbol + " " + right.ToString(); // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres
+            return "(" + left.ToString() + " " + OperatorSymbol + " " + right.ToString() + ")" ; // der først udskriver left, så OperatorSymbol, så right (adskilt af mellemrum) og ikke kan overstyres. Paranteser indsat for læsevenlighedens skyld.
         }
     }
 
